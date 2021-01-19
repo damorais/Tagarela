@@ -1,0 +1,33 @@
+@{
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+        <title>TAGARELADOR</title>
+        <link href="/estilo-tagarela/base.css" rel="stylesheet" type="text/css">
+        <link href="/estilo-tagarela/skeleton.css" rel="stylesheet" type="text/css">
+        <link href="/estilo-tagarela/screen.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div id="header">
+            <h1 class="container">TAGARELA!</h1>
+        </div>
+        <div class="container" id="content">
+            
+            <partial name="_FormularioMensagem" model="new Mensagem()" />
+
+
+            <div class="clear"></div>
+            <div class="shouts sixteen columns alpha omega">
+                @foreach(var mensagem in Model){
+                    <h5 class="shout">@mensagem.Conteudo (@mensagem.CriadoEm)</h5>
+                }
+            </div>
+        </div>
+    </body>
+</html>

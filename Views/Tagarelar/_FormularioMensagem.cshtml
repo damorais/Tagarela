@@ -1,0 +1,9 @@
+@model Tagarela.Models.Mensagem
+
+<div class="sixteen columns alpha omega" id="shout-form">
+    <form asp-action="Create">
+        <label>O que você quer TAGARELAR???</label>
+        <textarea asp-for="Conteudo"></textarea>
+        <input type="submit" value="Manda bala!">
+    </form>
+</div>

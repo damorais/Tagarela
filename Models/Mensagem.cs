@@ -6,7 +6,7 @@ namespace Tagarela.Models {
         public int Id { get; set; }
         public string Conteudo { get; set; }
 
-        public DateTime CriadoEm { get; set; }
+        public DateTime CriadoEm { get; set; } = DateTime.Now;
 
     }
 }
