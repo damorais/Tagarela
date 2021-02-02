@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tagarela.Data;
+using Tagarela.Models;
 
 namespace Tagarela
 {
@@ -31,7 +32,7 @@ namespace Tagarela
             services.AddDbContext<TagarelaContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("TagarelaContext")));
 
-            services.AddDefaultIdentity<Microsoft.AspNetCore.Identity.IdentityUser>(options =>
+            services.AddDefaultIdentity<User>(options =>
                 {
                     options.SignIn.RequireConfirmedAccount = false;
                     options.SignIn.RequireConfirmedEmail = false;

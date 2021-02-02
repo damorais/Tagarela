@@ -5,7 +5,7 @@ using Tagarela.Models;
 
 namespace Tagarela.Data
 {
-    public class TagarelaContext : IdentityDbContext<IdentityUser>
+    public class TagarelaContext : IdentityDbContext<User>
     {
         public TagarelaContext(DbContextOptions<TagarelaContext> options)
             : base(options)
