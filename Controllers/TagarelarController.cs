@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,26 +14,46 @@ namespace Tagarela.Controllers
     public class TagarelarController : Controller
     {
         private readonly TagarelaContext _context;
-        public TagarelarController(TagarelaContext context) 
+        private readonly UserManager<User> _userManager;
+
+        public TagarelarController(TagarelaContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var mensagens = _context.Mensagem
-                                .OrderByDescending(m => m.CriadoEm)
-                                .ToList();
-            
+            var usuarioLogado =
+                await _context
+                    .Users.Include(user => user.Segue)
+                    .FirstAsync(user => user.UserName == this._userManager.GetUserName(User));
+
+
+            // var mensagens = _context.Mensagens.Include(m => m.Autor)
+            //     .Where(mensagem => usuarioLogado.Segue.Contains(mensagem.Autor) || mensagem.Autor == usuarioLogado)
+            //     .OrderByDescending(m => m.CriadoEm)
+            //     .ToList();
+
+            //SELECT ... FROM Mensagens WHERE IdAutor IN (...) OR IdAutor = 'damorais'
+            var mensagens = from mensagem in _context.Mensagens.Include(m => m.Autor)
+                            where usuarioLogado.Segue.Contains(mensagem.Autor) || usuarioLogado == mensagem.Autor
+                            orderby mensagem.CriadoEm descending
+                            select mensagem;
 
             return View(model: mensagens);
         }
 
         [HttpPost]
-        public IActionResult Create([Bind("Id,Conteudo,CriadoEm")] Mensagem mensagem)
+        public async Task<IActionResult> Create([Bind("Id,Conteudo,CriadoEm")] Mensagem mensagem)
         {
+            var usuarioLogado = await _userManager.GetUserAsync(User);
+
+            mensagem.Autor = usuarioLogado;
+
             _context.Add(mensagem);
-            _context.SaveChanges();
+
+            await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }

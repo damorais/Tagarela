@@ -22,7 +22,7 @@ namespace Tagarela.Controllers
         // GET: Mensagens
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Mensagem.ToListAsync());
+            return View(await _context.Mensagens.ToListAsync());
         }
 
         // GET: Mensagens/Details/5
@@ -33,7 +33,7 @@ namespace Tagarela.Controllers
                 return NotFound();
             }
 
-            var mensagem = await _context.Mensagem
+            var mensagem = await _context.Mensagens
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (mensagem == null)
             {
@@ -73,7 +73,7 @@ namespace Tagarela.Controllers
                 return NotFound();
             }
 
-            var mensagem = await _context.Mensagem.FindAsync(id);
+            var mensagem = await _context.Mensagens.FindAsync(id);
             if (mensagem == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace Tagarela.Controllers
                 return NotFound();
             }
 
-            var mensagem = await _context.Mensagem
+            var mensagem = await _context.Mensagens
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (mensagem == null)
             {
@@ -139,15 +139,15 @@ namespace Tagarela.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var mensagem = await _context.Mensagem.FindAsync(id);
-            _context.Mensagem.Remove(mensagem);
+            var mensagem = await _context.Mensagens.FindAsync(id);
+            _context.Mensagens.Remove(mensagem);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MensagemExists(int id)
         {
-            return _context.Mensagem.Any(e => e.Id == id);
+            return _context.Mensagens.Any(e => e.Id == id);
         }
     }
 }

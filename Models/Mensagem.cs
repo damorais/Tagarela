@@ -1,6 +1,7 @@
 using System;
 
-namespace Tagarela.Models {
+namespace Tagarela.Models
+{
     public class Mensagem
     {
         public int Id { get; set; }
@@ -8,5 +9,6 @@ namespace Tagarela.Models {
 
         public DateTime CriadoEm { get; set; } = DateTime.Now;
 
+        public User Autor { get; set; }
     }
 }
